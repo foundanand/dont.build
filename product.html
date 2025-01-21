@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Don't build (or build) that product</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Decision Tools</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" id="feature-link">Feature Decision</a>
+                <a href="product.html" class="nav-link" id="product-link">Product Decision</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <section class="box">
+            <p class="help">1: Low, 10: High</p>
+            <h1 class="title">Don't build (or build) that product</h1>
+            <p>An opinionated decision system to help evaluate whether a product is worth building.</p>
+            
+            <form class="form">
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is the unique value proposition?</label>
+                    <p class="description">(1 = easily replicable by others, 10 = truly unique solution)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>How defensible is the solution against AI advancement?</label>
+                    <p class="description">(1 = could be obsolete with next AI release, 10 = strongly defensible)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is the addressable market size?</label>
+                    <p class="description">(1 = very niche market, 10 = massive global market)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is the data advantage?</label>
+                    <p class="description">(1 = relies on public data only, 10 = has exclusive data)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>How dependent is the solution on third-party AI providers?</label>
+                    <p class="description">(1 = completely dependent, 10 = fully independent)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is the time-to-market advantage?</label>
+                    <p class="description">(1 = others can replicate quickly, 10 = significant lead time)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>How sticky is the user experience?</label>
+                    <p class="description">(1 = one-time use, 10 = creates network effects)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is the operational complexity beyond AI?</label>
+                    <p class="description">(1 = significant human oversight, 10 = fully automated)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>How differentiated is the user experience from raw AI tools?</label>
+                    <p class="description">(1 = similar to ChatGPT, 10 = transformed experience)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+
+                <fieldset>
+                    <span class="value">5.5</span>
+                    <label>What is your founder confidence level with the product?</label>
+                    <p class="description">(1 = significant doubts, 10 = extremely confident in vision and execution)</p>
+                    <input type="range" min="1" max="10" step="0.5" value="5.5" />
+                </fieldset>
+            </form>
+
+            <div class="text-center">
+                <button id="btn-toggle-answer">Show answer</button>
+            </div>
+
+            <div class="answer hide">
+                <h1><span><span class="bool"></span> (<span class="percent"></span>)</span></h1>
+                <textarea class="summary" readonly></textarea>
+                <textarea hidden class="md-summary" readonly></textarea>
+                <button class="copy">Copy</button>
+                <button class="copy-md">Copy as Markdown</button>
+            </div>
+        </section>
+
+        <section>
+            <p>
+                Building products is often about making calculated bets rather than having absolute certainty.
+                This tool helps evaluate product ideas by considering critical factors that influence success,
+                from market dynamics to technical moats.
+            </p>
+            <p>
+                While no decision framework is perfect, this tool aims to bring objectivity to the subjective
+                process of evaluating product opportunities. Use it as one of many inputs in your
+                decision-making process.
+            </p>
+        </section>
+    </div>
+
+    <script>
+    (function() {
+        const questions = [
+            { id: 1, weight: 0.15, value: 5.5, negative: false },
+            { id: 2, weight: 0.15, value: 5.5, negative: false },
+            { id: 3, weight: 0.10, value: 5.5, negative: false },
+            { id: 4, weight: 0.10, value: 5.5, negative: false },
+            { id: 5, weight: 0.10, value: 5.5, negative: true },
+            { id: 6, weight: 0.05, value: 5.5, negative: false },
+            { id: 7, weight: 0.10, value: 5.5, negative: false },
+            { id: 8, weight: 0.05, value: 5.5, negative: true },
+            { id: 9, weight: 0.10, value: 5.5, negative: false },
+            { id: 10, weight: 0.10, value: 5.5, negative: false }
+        ];
+
+        document.querySelectorAll("fieldset").forEach((fieldset, index) => {
+            const input = fieldset.querySelector("input");
+            const valueSpan = fieldset.querySelector(".value");
+
+            input.oninput = (e) => {
+                const val = parseFloat(e.target.value);
+                valueSpan.innerText = val;
+                questions[index].value = val;
+
+                // Calculate weighted sum
+                const sum = questions.reduce((prev, q) => {
+                    let v = q.value;
+                    if (q.negative) {
+                        v = 10 - v;
+                    }
+                    return prev + (v / 10 * q.weight);
+                }, 0);
+
+                // Display the results
+                const percent = `${(sum * 100).toFixed(0)}%`;
+                
+                let recommendation = '';
+                if (sum >= 0.8) {
+                    recommendation = 'Strong Build - This product has significant potential';
+                } else if (sum >= 0.6) {
+                    recommendation = 'Consider Building - Good potential but evaluate risks';
+                } else if (sum >= 0.4) {
+                    recommendation = 'Caution - Need significant differentiation';
+                } else {
+                    recommendation = "Don't Build - High risk of commoditization";
+                }
+
+                document.querySelector(".answer .percent").innerText = percent;
+                document.querySelector(".answer .bool").innerText = recommendation.split(' - ')[0];
+
+                // Update summary
+                let summary = '';
+                let mdSummary = '||Question|Answer|\n|---|---|---|\n';
+                document.querySelectorAll("fieldset").forEach((f, n) => {
+                    summary += `${n + 1}. ${f.querySelector("label").innerText} = ${f.querySelector("input").value}\n`;
+                    mdSummary += `|${n + 1}|${f.querySelector("label").innerText}|${f.querySelector("input").value}|\n`;
+                });
+                summary += `\n=> ${recommendation} (${percent})`;
+                mdSummary += `||Result:|${recommendation} (${percent})|`;
+                document.querySelector('.summary').value = summary;
+                document.querySelector('.md-summary').value = mdSummary;
+            };
+        });
+
+        // Initialize all sliders
+        document.querySelectorAll("input[type=range]").forEach(input => {
+            input.dispatchEvent(new Event('input'));
+        });
+    })();
+
+    (function () {
+        const ans = document.querySelector('.answer');
+        const btn = document.querySelector('#btn-toggle-answer');
+
+        btn.addEventListener('click', function() {
+            if(ans.style.display === 'block') {
+                ans.style.display = 'none';
+                btn.innerText = "Show answer";
+            } else {
+                ans.style.display = 'block';
+                btn.innerText = "Hide answer";
+            }
+        });
+    })();
+
+    (function () {
+        const copyBtn = document.querySelector('.copy');
+        const copyMdBtn = document.querySelector('.copy-md');
+
+        var copyToClipboard = function(val) {
+            var tempTxt = document.createElement("textarea");
+            tempTxt.value = val;
+            document.body.appendChild(tempTxt);
+            tempTxt.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTxt);
+
+            let notice = document.createElement("span");
+            notice.className = "notice visible";
+            notice.innerHTML = "Copied to clipboard.";
+            document.body.appendChild(notice);
+            setTimeout(() => {
+                document.body.removeChild(notice);
+            }, 3000);
+        }
+
+        copyBtn.addEventListener('click', function() {
+            copyToClipboard(document.querySelector('.summary').value);
+        });
+
+        copyMdBtn.addEventListener('click', function() {
+            copyToClipboard(document.querySelector('.md-summary').value);
+        });
+    })();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('feature')) {
+            document.getElementById('feature-link').classList.add('active');
+        } else if (currentPath.includes('product')) {
+            document.getElementById('product-link').classList.add('active');
+        }
+    });
+    </script>
+</body>
+</html>

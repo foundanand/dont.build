@@ -10,6 +10,15 @@
     <link href="style.css?v=2" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">Decision Tools</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" id="feature-link">Feature Decision</a>
+                <a href="product.html" class="nav-link" id="product-link">Product Decision</a>
+            </div>
+        </div>
+    </nav>
 
 <div class="container">
     <section class="box">
@@ -196,7 +205,16 @@
     });
 })();
 
-</script>
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            if (currentPath.includes('feature')) {
+                document.getElementById('feature-link').classList.add('active');
+            } else if (currentPath.includes('product')) {
+                document.getElementById('product-link').classList.add('active');
+            }
+        });
+
+</script>
 </body>
 </html>
